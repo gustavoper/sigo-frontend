@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>IndTexBr - SIGO</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="assets/img/favicon.png" rel="icon">
+  <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="assets/vendor/aos/aos.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="assets/vendor/bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="assets/vendor/glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="assets/vendor/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="assets/css/style.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous">
+
+  <!-- =======================================================
+  * Template Name: BizLand - v3.0.1
+  * Template URL: https://bootstrapmade.com/bizland-bootstrap-business-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+</head>
+
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="d-flex align-items-center">
+    <div class="container d-flex align-items-center justify-content-between">
+
+      <h1 class="logo"><a href="index.html">SIGO<span>.</span></a></h1>
+      <!-- Uncomment below if you prefer to use an image logo -->
+      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt=""></a>-->
+
+      <nav id="navbar" class="navbar">
+        <ul>
+          <li><a class="nav-link scrollto active" href="#hero">Home</a></li>
+          <% if (canviewNormas == true ) { %>
+          <li><a class="nav-link scrollto content_norma" href="#normas">Gestão de Normas</a></li>
+          <% } %>
+          <% if (canviewConsultorias == true ) { %>
+          <li><a class="nav-link scrollto content_consultoria" href="#consultorias">Consultorias e Assessorias</a></li>
+          <% } %>
+        <i class="bi bi-list mobile-nav-toggle"></i>
+      </nav><!-- .navbar -->
+
+    </div>
+  </header><!-- End Header -->
+
+  <!-- ======= Hero Section ======= -->
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container" data-aos="zoom-out" data-aos-delay="100">
+      <% if (isLogged == false) { %>
+      <div class="not_logged_in">
+      <h1>Bem-vindo ao <span>SIGO</span></h1>
+      <h2>Sistema Integrado de Gestão Operacional</h2>
+      
+      <div class="d-flex">
+        <a href="<%= config.authenticationURL %>" 
+        id="authentication-link" 
+        class="btn-get-started scrollto">Login</a>
+      </div>
+    </div>
+      <% } %>
+      
+      <% if (isLogged == true) { %>
+      <div class="not_logged_in">
+        <h1>Olá, <%=username%> </h1>
+        <div class="d-flex">
+          <a href="/signout" 
+          class="btn-get-started scrollto">Logout</a>
+        </div>
+      </div>
+      <% } %>
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+    <% if (alertMessage != "") { %>
+      <div class="row">
+        
+        <section class="d-flex align-items-center">
+          <div class="container">
+            <div class="section-title">
+              <div class="alert alert-danger" role="alert">
+                <%=alertMessage%>
+              </div>
+            </div>
+          </div>
+
+      </section>
+    </div>
+      <%}%>
+    <% if (canviewNormas == true ) { %>
+    <div class="row content_norma">
+        <section class="d-flex align-items-center">
+        <div class="container" data-aos="fade-up" id="normas">
+            <div class="section-title">
+              <h2>Gestão de Normas</h2>
+              <h3>Normas Cadastradas</h3>
+
+              <% if (normas !== undefined) { %>
+              <table class="table table-striped">
+                <tr>
+                    <th scope="col">#</th>
+                    <th>Título</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                </tr>
+                <% for (var i=0; i < normas.length; i++) { %>
+                <tr>
+                    <td class="norma_id[<%=i%>]"><%=(normas.length)-i %>
+                      <input type="hidden" name="norma_id[<%=i%>]" value="<%=normas[i].id%>">
+                    </td>
+                    <td class="norma_titulo[<%=i%>]"><%=normas[i].titulo %></td>
+                    <td class="norma_data_inclusao[<%=i%>]">
+
+                      <script type="text/javascript">
+                      var d = new Date(<%=normas[i].data_inclusao%>);
+                      document.write(d.getDate() + '/' + (d.getMonth()+1) + '/' + d.getFullYear());
+                    </script>
+                      <%normas[i].data_inclusao %>
+                    </td>
+                    <td><a href="javascript:void()" onclick="toggleNorma(<%=i%>)" class="toggleDetalhe" id="toggle_<%=i%>">Ver Detalhes</a></td>
+                </tr>
+                <tr id="norma_detalhe_id<%=i%>" style="display:none !important">
+                  <td colspan=4>
+                    <table class="table table-striped">
+                      <tr>
+                        <td colspan=2><strong>Descrição:</strong> <br><%=normas[i].descricao %></td>
+                      </tr>
+                      <tr>
+                        <td><strong>Tipo: </strong> <%=normas[i].tipo %></td>
+                        <td><strong>Ativo?</strong>
+                          <% if(normas[i].ativo==true) { %>
+                            Sim                    
+                            <%} else {  %>
+                              Não
+                            <%} %>
+                        </td>
+                      </tr>
+                    </table>
+                    
+                    
+                  
+                  
+                  </td>
+
+                </tr>
+                <% } %>
+                <% }  else { %>
+                  <p>&nbsp; </p>
+                  <h5>Nenhuma norma cadastrada.</h5>
+                <% }%>
+            </table>
+
+            </div>
+             <div class="row justify-content-center">
+              <div class="col-xl-10"></div>
+            </div>
+        </div>
+        </section>
+    </div>
+    <% } %>
+
+    <% if (canviewConsultorias == true ) { %>
+    <div class="row content_consultoria">
+        <section  class="d-flex align-items-center">
+        <div class="container" data-aos="fade-up" id="consultorias">
+
+            <div class="section-title">
+              <h2>Consultorias / Asessorias</h2>
+              <h4>Localizar Norma</h4>
+                <div class="row">
+                  <form class="form-inline">
+                    <div class="form-group mx-sm-3 mb-2">
+                      <input type="text" value="" class="form-control" id="inputBuscaNorma" placeholder="Digite o Titulo da Norma">
+                    </div>
+                    <button type="button" class="btn btn-primary mb-2" id="buscaNorma">Buscar</button>
+                  </form>
+
+
+                </div>
+            </div>
+        
+        
+          <div id="results" style="display: none;">
+            <div class="section-title">
+            <h2>Resultados da busca</h2>
+            </div>
+            <table>
+              <table class="table table-striped" id="norma_results">
+                <tr>
+                    <th scope="col">#</th>
+                    <th>Título</th>
+                    <th>Criado em</th>
+                    <th>Ações</th>
+                </tr>
+                <tbody>
+
+                </tbody>
+            </table>
+
+            <div id="dialogs">
+
+            </div>
+          </div>
+        </section>
+    </div>
+    <% }%>
+
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-3 col-md-6 footer-contact">
+            <h3>IndTexBr<span>.</span></h3>
+            <p>
+              Rua Abc, 123 <br>
+              Belo Horizonte, Minas Gerais<br>
+              Brasil <br><br>
+              <strong>Fone:</strong> 31 55105555<br>
+              <strong>Email:</strong> falecom@indtexbr.com.br<br>
+            </p>
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+          </div>
+
+          <div class="col-lg-3 col-md-6 footer-links">
+          
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container py-4">
+      <div class="copyright">
+        &copy; Copyright <strong><span>BizLand</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/bizland-bootstrap-business-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="assets/vendor/aos/aos.js"></script>
+  <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="assets/vendor/glightbox/js/glightbox.min.js"></script>
+  <script src="assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="assets/vendor/php-email-form/validate.js"></script>
+  <script src="assets/vendor/purecounter/purecounter.js"></script>
+  <script src="assets/vendor/swiper/swiper-bundle.min.js"></script>
+  <script src="assets/vendor/waypoints/noframework.waypoints.js"></script>
+
+  <input type="hidden" id="id_token" name="id_token" value="<%=id_token%>">
+
+  <input type="hidden"  id="endpointsBaseUrl" name="endpointsBaseUrl" value="<%=config.endpointsBaseUrl%>">
+
+
+  <!-- Template Main JS File -->
+  <script src="assets/js/main.js"></script>
+
+
+
+<script src="https://code.jquery.com/jquery-3.3.1.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js" integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js" integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k" crossorigin="anonymous"></script>
+<script type="text/javascript">
+
+  $(document).ready(function () {
+    
+
+      $(".toggleDetalhe").click(function () {
+        toggleId = this.id.split("_");
+        
+        id = toggleId[1];
+
+        $("#norma_detalhe_id"+id).toggle();
+      });
+
+      $("#buscaNorma").click(function () {
+        var ajaxRequest = $.ajax({
+          url: "/buscaNorma",
+          method: "POST",
+          data: { "titulo":"NBR" },
+          dataType: "json"
+        });
+
+        ajaxRequest.done(function (msg){
+          $("#results").toggle();
+
+          //var script = document.createElement("script");
+
+
+          for (i=0; i<msg.length; i++) {
+            $('#norma_results tr:last').after('');
+            localStorage.setItem("norma_titulo["+i+"]", msg[i].titulo);
+
+            $("#norma_results tr:last").after(
+              `
+              <tr> 
+                  <td>#</td> 
+                  <td>`+msg[i].titulo+`</td> 
+                  <td>29/3/2021	</td> 
+                  <td class=emitirParecer id=parecer_`+i+`>
+                    <a href="javascript:void(0)" class="emitir_parecer" id="parecer_`+msg[i].id+`">Emitir Parecer</a>
+                  </td>
+              </tr>
+               <tr style="display:none" id="parecer_dialog`+i+`">
+                <td colspan=4>
+                  <div class="section-title danger">
+                  <h2 class="title-danger">Emitir Parecer</h2>
+                
+                  <form class="form">
+                    <div class="form-group">
+                      <label for=norma>Norma: </label>
+                      <input class="form-control" type="text" 
+                      readonly="readonly" id="norma_titulo[`+i+`]" name="norma" value="`+msg[i].titulo+`">
+                    </div>
+                    
+                      <p><strong> Descrição:</strong></p>
+                      <p style="text-align:left !important"> `+msg[i].descricao+`</p>
+
+                    
+                    <div class="form-group">
+                      <label for=conteudo> Parecer: </label>
+                      <textarea  id="parecer_conteudo[`+i+`]" name=conteudo 
+                      onChange="localStorage.setItem('parecer_conteudo[`+i+`]', this.value)" 
+                      class="form-control" ></textarea>
+                      <label for=risco_fazer> Risco de Fazer: </label>
+                      <input id="parecer_risco_fazer[`+i+`]"  
+                      class="form-control"  
+                      type="text" 
+                      name="risco_fazer"
+                      onChange="localStorage.setItem('parecer_riscofazer[`+i+`]', this.value)" >
+                      <label for=risco_fazer> Risco de Não Fazer: </label>
+                      <input class="form-control" id="parecer_risco_nao_fazer[`+i+`]"   type="text" 
+                      name="risco_nao_fazer"
+                      onChange="localStorage.setItem('parecer_risconaofazer[`+i+`]', this.value)" >
+                  </div>
+
+                  <div class="form-group">
+                      <input class="form-check-input" type="checkbox" value="1" checked="checked" id="notificar_compliance[`+i+`]" name="notificar_compliance"
+                      onChange="localStorage.setItem('parecer_notificarcompliance[`+i+`]', this.checked)"
+                      >
+                      <label class="form-check-label" for="notificar_compliance">
+                          Notificar Compliance? 
+                      </label>
+
+
+                  </div>
+                  <div class="form-group">
+                    <button type="button" class="btn btn-primary consultoria_emitir_parecer" id="consultoria_emitir_parecer_id[`+i+`]">Emitir Parecer</button>
+                  </div>
+                </form>
+                </div>
+                </td>
+                </tr>
+              `
+            );
+            //script.innerHTML+= "$('#parecer_dialog"+i+"').dialog();";
+          } 
+          //document.body.appendChild(script);
+
+        });
+      });
+
+
+      $('body').on('click','.consultoria_emitir_parecer', function(e){
+
+        let id = e.currentTarget.id;
+
+        id = id.split("[")[1];
+        id = id.split("]")[0];
+        let postContent = {
+          norma_titulo: localStorage.getItem("norma_titulo["+id+"]"),
+          parecer_conteudo: localStorage.getItem("parecer_conteudo["+id+"]"),
+          parecer_riscofazer:localStorage.getItem("parecer_riscofazer["+id+"]"),
+          parecer_risconaofazer: localStorage.getItem("parecer_risconaofazer["+id+"]"),
+          parecer_notificarcompliance: "Sim"
+        };
+        console.log(postContent);
+
+
+        //alert(e.currentTarget.id);
+        var ajaxRequest = $.ajax({
+          url: "/parecer",
+          method: "POST",
+          data: postContent,
+          dataType: "json"
+        });
+
+        ajaxRequest.done(function (msg){
+          alert(msg);
+        });
+        
+      });
+
+      
+
+      $('body').on('click','.emitirParecer', function(e){
+        let idParecer = e.currentTarget.id.split("_")[1];
+        
+
+        $("#parecer_dialog"+idParecer).toggle();
+
+
+      });
+
+  });
+
+
+  </script>
+</body>
+
+</html>

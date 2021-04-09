@@ -1,0 +1,5 @@
+{
+    "serviceURL":"https://msn7hkpwfi.execute-api.sa-east-1.amazonaws.com/dev",
+    "authenticationURL": "https://sigo-usuarios2.auth.sa-east-1.amazoncognito.com/login?client_id=27t3rm16rqsdimciopi4ohplqa&response_type=token&scope=aws.cognito.signin.user.admin+email+openid+phone+profile&redirect_uri=http://localhost:3000/signin",
+    "endpointsBaseUrl": "https://msn7hkpwfi.execute-api.sa-east-1.amazonaws.com/dev"
+  }
